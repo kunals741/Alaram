@@ -1,20 +1,17 @@
 package com.kunal.alaram
 
-import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,9 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.text.font.FontWeight.Companion.Medium
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getSystemService
 import com.kunal.alaram.broadcastReceivers.AlarmReceiver
+import com.kunal.alaram.ui.theme.PoppinsFontFamily
+import com.kunal.alaram.ui.theme.darkTextColor
 import java.util.Calendar
 
 @Composable
@@ -66,22 +67,32 @@ fun Alaram(modifier: Modifier) {
 
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Selected Time: ${selectedTime.value}")
-        Button(onClick = {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(
-                    context, Manifest.permission.SCHEDULE_EXACT_ALARM
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissionLauncher.launch(Manifest.permission.SCHEDULE_EXACT_ALARM)
-            }else{
-                picker.show()
-            }
-        }) {
-            Text("Select Time")
-        }
+        val currHour = calendar[Calendar.HOUR_OF_DAY]
+        val currMinute = calendar[Calendar.MINUTE]
+        Text(
+            modifier = Modifier.padding(0.dp, 90.dp, 0.dp, 0.dp),
+            fontFamily = PoppinsFontFamily,
+            fontSize = 84.sp,
+            fontWeight = Medium,
+            color = darkTextColor,
+            text = "$currHour:$currMinute"
+        )
+//        Text("Selected Time: ${selectedTime.value}")
+//        Button(onClick = {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(
+//                    context, Manifest.permission.SCHEDULE_EXACT_ALARM
+//                ) != PackageManager.PERMISSION_GRANTED
+//            ) {
+//                requestPermissionLauncher.launch(Manifest.permission.SCHEDULE_EXACT_ALARM)
+//            } else {
+//                picker.show()
+//            }
+//        }) {
+//            Text("Select Time")
+//        }
+        AlarmList(Modifier)
     }
 }
 
