@@ -25,14 +25,16 @@ import androidx.compose.ui.unit.sp
 import com.kunal.alaram.ui.theme.PoppinsFontFamily
 import com.kunal.alaram.ui.theme.darkTextColor
 import com.kunal.alaram.ui.theme.startGradientToggleOnColor
+import com.kunal.alaram.utils.CalendarHelperUtil
+import java.util.Calendar
 
 
 @Composable
-fun AlarmCard(modifier: Modifier) {
+fun AlarmCard(modifier: Modifier, selectedTime: Long) {
     var checked by remember { mutableStateOf(true) }
 
     ElevatedCard(
-        modifier = modifier.padding(20.dp,0.dp,20.dp,24.dp),
+        modifier = modifier.padding(20.dp, 0.dp, 20.dp, 24.dp),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 10.dp
         )
@@ -43,7 +45,7 @@ fun AlarmCard(modifier: Modifier) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                "07:30",
+                CalendarHelperUtil.convertTimeFromMillis(selectedTime),
                 fontFamily = PoppinsFontFamily,
                 fontWeight = FontWeight.Medium,
                 fontSize = 34.sp,
@@ -75,5 +77,5 @@ fun AlarmCard(modifier: Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun AlarmCardPreview() {
-    AlarmCard(Modifier)
+    AlarmCard(Modifier, Calendar.getInstance().timeInMillis)
 }

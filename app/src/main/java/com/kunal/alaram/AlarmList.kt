@@ -6,9 +6,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -39,24 +36,22 @@ import java.util.Calendar
 fun AlarmList(modifier: Modifier) {
 
     val calendar = Calendar.getInstance()
-    val selectedTime = remember { mutableStateOf("-") }
-    var selectedTimeInMillis: Long? = null
     val currentHour = calendar[Calendar.HOUR_OF_DAY]
     val currentMinute = calendar[Calendar.MINUTE]
     val context = LocalContext.current
-    var hasPermission by remember { mutableStateOf(false) }
+    var selectedTimeInMillis by remember { mutableStateOf<Long?>(null) }
 
     val picker =
         TimePickerDialog(
             LocalContext.current,
             { _, hour: Int, minute: Int ->
+                //to get selected time in millis
                 calendar.set(Calendar.HOUR_OF_DAY, hour)
                 calendar.set(Calendar.MINUTE, minute)
                 calendar.set(Calendar.SECOND, 0)
                 calendar.set(Calendar.MILLISECOND, 0)
+                setAlarm(context, calendar.timeInMillis)
                 selectedTimeInMillis = calendar.timeInMillis
-                selectedTime.value = "$hour:$minute"
-                setAlarm(context, selectedTimeInMillis!!)
             }, currentHour, currentMinute, false
         )
 
@@ -74,7 +69,7 @@ fun AlarmList(modifier: Modifier) {
 
         LazyColumn {
             items(1) {
-                AlarmCard(modifier)
+                selectedTimeInMillis?.let { it1 -> AlarmCard(modifier, it1) }
             }
         }
 
