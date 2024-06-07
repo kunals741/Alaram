@@ -10,14 +10,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getSystemService
 import com.kunal.alaram.broadcastReceivers.AlarmReceiver
+import com.kunal.alaram.model.AlarmData
 import com.kunal.alaram.ui.theme.PoppinsFontFamily
 import com.kunal.alaram.ui.theme.darkTextColor
 import java.util.Calendar
@@ -36,40 +36,47 @@ import java.util.Calendar
 fun AlarmList(modifier: Modifier) {
 
     val calendar = Calendar.getInstance()
-    val currentHour = calendar[Calendar.HOUR_OF_DAY]
-    val currentMinute = calendar[Calendar.MINUTE]
     val context = LocalContext.current
-    var selectedTimeInMillis by remember { mutableStateOf<Long?>(null) }
+    val alarmList = remember { mutableStateListOf<AlarmData>() }
+    //bug : shows last time selected, after selecting one
 
     val picker =
         TimePickerDialog(
             LocalContext.current,
             { _, hour: Int, minute: Int ->
-                //to get selected time in millis
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-                setAlarm(context, calendar.timeInMillis)
-                selectedTimeInMillis = calendar.timeInMillis
-            }, currentHour, currentMinute, false
+                val newCalendar = Calendar.getInstance()
+                newCalendar.set(Calendar.HOUR_OF_DAY, hour)
+                newCalendar.set(Calendar.MINUTE, minute)
+                newCalendar.set(Calendar.SECOND, 0)
+                newCalendar.set(Calendar.MILLISECOND, 0)
+                setAlarm(context, newCalendar.timeInMillis)
+                alarmList.add((AlarmData(alarmList.size, newCalendar.timeInMillis)))
+            }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
         )
 
     Column(
         modifier = Modifier
     ) {
-        Text(
-            text = stringResource(R.string.alarms),
-            fontFamily = PoppinsFontFamily,
-            fontWeight = FontWeight.Medium,
-            fontSize = 18.sp,
-            color = darkTextColor,
-            modifier = Modifier.padding(24.dp, 24.dp, 0.dp, 24.dp)
-        )
+        if (alarmList.size > 0) {
+            Text(
+                text = stringResource(R.string.alarms),
+                fontFamily = PoppinsFontFamily,
+                fontWeight = FontWeight.Medium,
+                fontSize = 18.sp,
+                color = darkTextColor,
+
+                modifier = Modifier.padding(24.dp, 24.dp, 0.dp, 24.dp)
+            )
+        }
 
         LazyColumn {
-            items(1) {
-                selectedTimeInMillis?.let { it1 -> AlarmCard(modifier, it1) }
+            items(items = alarmList) { alarm ->
+                AlarmCard(modifier, alarm) { newAlarm ->
+                    val index = alarmList.indexOfFirst { it.id == newAlarm.id }
+                    if (index != -1) {
+                        alarmList[index] = newAlarm
+                    }
+                }
             }
         }
 
