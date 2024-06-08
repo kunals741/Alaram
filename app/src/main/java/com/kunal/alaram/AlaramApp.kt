@@ -34,6 +34,7 @@ fun Alaram(modifier: Modifier) {
                 CalendarHelperUtil.convertTimeFromMillis(Calendar.getInstance().timeInMillis)
         }
     }
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
