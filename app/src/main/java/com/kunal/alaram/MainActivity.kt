@@ -17,11 +17,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val isNotification = intent.getBooleanExtra("IS_NOTIFICATION", false)
         setContent {
             AlaramTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Alaram(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        isNotification
                     )
                 }
             }
