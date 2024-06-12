@@ -1,5 +1,6 @@
 package com.kunal.alaram
 
+import android.app.AlarmManager
 import android.app.TimePickerDialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import com.kunal.alaram.model.AlarmData
 import com.kunal.alaram.ui.theme.PoppinsFontFamily
 import com.kunal.alaram.ui.theme.darkTextColor
@@ -37,6 +39,7 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
     var checked by remember { mutableStateOf(true) }
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
+    val alarmManager = getSystemService(context, AlarmManager::class.java)
 
     val picker =
         TimePickerDialog(
@@ -46,7 +49,9 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
                 calendar.set(Calendar.MINUTE, minute)
                 calendar.set(Calendar.SECOND, 0)
                 calendar.set(Calendar.MILLISECOND, 0)
-                setAlarm(context, calendar.timeInMillis)
+                if (alarmManager != null) {
+                    setAlarm(context, alarmManager, calendar.timeInMillis)
+                }
                 onClick(alarmDetails.copy(id = alarmDetails.id, time = calendar.timeInMillis))
             }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
         )

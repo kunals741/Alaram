@@ -4,7 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.Log
 import android.view.Gravity
 import android.view.WindowManager
@@ -25,6 +29,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private var composeView: ComposeView? = null
     private var windowManager: WindowManager? = null
     private var alarmTime : Long? = null
+    private var vibrator : Vibrator? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("TAG", "Alarm Triggerd")
@@ -34,6 +39,15 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun showSystemAlertWindow(context: Context?) {
         windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager: VibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+        } else {
+            // backward compatibility for Android API < 31,
+            // VibratorManager was only added on API level 31 release.
+            // noinspection deprecation
+            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -51,6 +65,8 @@ class AlarmReceiver : BroadcastReceiver() {
                     windowManager?.removeView(composeView)
                     composeView = null
                     windowManager = null
+                    vibrator?.cancel()
+                    vibrator = null
                 }
             }
         }
@@ -61,7 +77,7 @@ class AlarmReceiver : BroadcastReceiver() {
         lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         composeView?.setViewTreeLifecycleOwner(lifecycleOwner)
         composeView?.setViewTreeSavedStateRegistryOwner(lifecycleOwner)
-
+        vibrateDevice()
         windowManager?.addView(composeView, params)
     }
 
@@ -94,6 +110,22 @@ class AlarmReceiver : BroadcastReceiver() {
             get() = mLifecycleRegistry
         override val savedStateRegistry: SavedStateRegistry
             get() = mSavedStateRegistryController.savedStateRegistry
+    }
+
+    private fun vibrateDevice() {
+        val DELAY = 0
+        val VIBRATE = 1000
+        val SLEEP = 1000
+        val START = 0
+        val vibratePattern = longArrayOf(DELAY.toLong(), VIBRATE.toLong(), SLEEP.toLong())
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, START))
+        } else {
+            // backward compatibility for Android API < 26
+            // noinspection deprecation
+            vibrator?.vibrate(vibratePattern, START)
+        }
     }
 }
 
