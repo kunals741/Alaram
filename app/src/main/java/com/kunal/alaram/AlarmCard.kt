@@ -35,9 +35,7 @@ import java.util.Calendar
 @Composable
 fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) -> Unit) {
     var checked by remember { mutableStateOf(true) }
-
     val context = LocalContext.current
-    var selectedTimeInMillis: Long? = null
     val calendar = Calendar.getInstance()
 
     val picker =

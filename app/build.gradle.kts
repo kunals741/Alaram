@@ -68,4 +68,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.material)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.lifecycle.extensions)
 }

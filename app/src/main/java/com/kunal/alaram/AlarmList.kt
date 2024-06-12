@@ -64,7 +64,6 @@ fun AlarmList(modifier: Modifier) {
                 fontWeight = FontWeight.Medium,
                 fontSize = 18.sp,
                 color = darkTextColor,
-
                 modifier = Modifier.padding(24.dp, 24.dp, 0.dp, 24.dp)
             )
         }
@@ -109,7 +108,9 @@ fun AlarmList(modifier: Modifier) {
 
 fun setAlarm(context: Context, selectedTimeInMillis: Long) {
     val alarmManager = getSystemService(context, AlarmManager::class.java)
-    val intent = Intent(context, AlarmReceiver::class.java)
+    val intent = Intent(context, AlarmReceiver::class.java).apply {
+        putExtra("alarm_time", selectedTimeInMillis)
+    }
     val pendingIntent = PendingIntent.getBroadcast(
         context, 0, intent,
         PendingIntent.FLAG_IMMUTABLE
