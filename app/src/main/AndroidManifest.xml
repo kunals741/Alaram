@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -31,6 +32,9 @@
             </intent-filter>
         </activity>
         <receiver android:name=".broadcastReceivers.AlarmReceiver" />
+        <service android:name=".broadcastReceivers.VibratorService"
+            android:foregroundServiceType="shortService"
+            />
     </application>
 
 </manifest>

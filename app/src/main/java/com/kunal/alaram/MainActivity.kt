@@ -26,10 +26,6 @@ class MainActivity : ComponentActivity() {
         const val REQUEST_ALARM_PERMISSION = 101
     }
 
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -102,7 +98,6 @@ fun OverlayPermissionDialog(
         }
     )
 }
-
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

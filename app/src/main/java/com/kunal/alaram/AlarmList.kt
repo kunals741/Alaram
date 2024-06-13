@@ -18,7 +18,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +42,6 @@ fun AlarmList(modifier: Modifier) {
     val context = LocalContext.current
     val alarmList = remember { mutableStateListOf<AlarmData>() }
     val alarmManager = getSystemService(context, AlarmManager::class.java)
-    var hasAlarmPermission = remember { mutableStateOf(false) }
     //bug : shows last time selected, after selecting one
 
     val picker =
@@ -102,7 +100,6 @@ fun AlarmList(modifier: Modifier) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && alarmManager?.canScheduleExactAlarms() == true) {
                     picker.show()
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//                    requestPermissionLauncher.launch(Manifest.permission.SCHEDULE_EXACT_ALARM)
                     val intent = Intent(
                         ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
                         Uri.parse("package:${context.packageName}")
@@ -143,7 +140,6 @@ fun setAlarm(context: Context, alarmManager: AlarmManager, selectedTimeInMillis:
         )
     }
 }
-
 
 @Preview(showBackground = true, widthDp = 360)
 @Composable
