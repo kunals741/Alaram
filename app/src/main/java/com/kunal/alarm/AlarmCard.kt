@@ -1,4 +1,4 @@
-package com.kunal.alaram
+package com.kunal.alarm
 
 import android.app.AlarmManager
 import android.app.TimePickerDialog
@@ -26,11 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getSystemService
-import com.kunal.alaram.model.AlarmData
-import com.kunal.alaram.ui.theme.PoppinsFontFamily
-import com.kunal.alaram.ui.theme.darkTextColor
-import com.kunal.alaram.ui.theme.startGradientToggleOnColor
-import com.kunal.alaram.utils.CalendarHelperUtil
+import com.kunal.alarm.model.AlarmData
+import com.kunal.alarm.ui.theme.PoppinsFontFamily
+import com.kunal.alarm.ui.theme.darkTextColor
+import com.kunal.alarm.ui.theme.startGradientToggleOnColor
+import com.kunal.alarm.utils.CalendarHelperUtil
 import java.util.Calendar
 
 

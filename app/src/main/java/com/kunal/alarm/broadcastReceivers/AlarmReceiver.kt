@@ -1,4 +1,4 @@
-package com.kunal.alaram.broadcastReceivers
+package com.kunal.alarm.broadcastReceivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,8 +17,8 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import com.kunal.alaram.AlarmNotification
-import com.kunal.alaram.utils.CalendarHelperUtil.Companion.convertTimeFromMillis
+import com.kunal.alarm.AlarmNotification
+import com.kunal.alarm.utils.CalendarHelperUtil.Companion.convertTimeFromMillis
 
 class AlarmReceiver : BroadcastReceiver() {
 

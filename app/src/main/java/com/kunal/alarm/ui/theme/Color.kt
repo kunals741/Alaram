@@ -1,4 +1,4 @@
-package com.kunal.alaram.ui.theme
+package com.kunal.alarm.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

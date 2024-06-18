@@ -1,4 +1,4 @@
-package com.kunal.alaram
+package com.kunal.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -28,11 +28,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getSystemService
-import com.kunal.alaram.MainActivity.Companion.REQUEST_ALARM_PERMISSION
-import com.kunal.alaram.broadcastReceivers.AlarmReceiver
-import com.kunal.alaram.model.AlarmData
-import com.kunal.alaram.ui.theme.PoppinsFontFamily
-import com.kunal.alaram.ui.theme.darkTextColor
+import com.kunal.alarm.MainActivity.Companion.REQUEST_ALARM_PERMISSION
+import com.kunal.alarm.broadcastReceivers.AlarmReceiver
+import com.kunal.alarm.model.AlarmData
+import com.kunal.alarm.ui.theme.PoppinsFontFamily
+import com.kunal.alarm.ui.theme.darkTextColor
 import java.util.Calendar
 
 @Composable

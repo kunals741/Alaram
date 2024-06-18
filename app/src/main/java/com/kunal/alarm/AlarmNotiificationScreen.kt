@@ -1,4 +1,4 @@
-package com.kunal.alaram
+package com.kunal.alarm
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kunal.alaram.ui.theme.PoppinsFontFamily
+import com.kunal.alarm.ui.theme.PoppinsFontFamily
 
 @Composable
 fun AlarmNotification(modifier: Modifier, alarmTime: String, onDismiss: () -> Unit) {

@@ -1,4 +1,4 @@
-package com.kunal.alaram
+package com.kunal.alarm
 
 import android.app.AlarmManager
 import android.content.Context
@@ -18,7 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.kunal.alaram.ui.theme.AlaramTheme
+import com.kunal.alarm.ui.theme.AlaramTheme
 
 class MainActivity : ComponentActivity() {
     companion object {

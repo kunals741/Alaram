@@ -1,4 +1,4 @@
-package com.kunal.alaram
+package com.kunal.alarm
 
 import android.content.Intent
 import android.net.Uri
@@ -19,10 +19,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Medium
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kunal.alaram.MainActivity.Companion.REQUEST_OVERLAY_PERMISSION
-import com.kunal.alaram.ui.theme.PoppinsFontFamily
-import com.kunal.alaram.ui.theme.darkTextColor
-import com.kunal.alaram.utils.CalendarHelperUtil
+import com.kunal.alarm.MainActivity.Companion.REQUEST_OVERLAY_PERMISSION
+import com.kunal.alarm.ui.theme.PoppinsFontFamily
+import com.kunal.alarm.ui.theme.darkTextColor
+import com.kunal.alarm.utils.CalendarHelperUtil
 import kotlinx.coroutines.delay
 import java.util.Calendar
 

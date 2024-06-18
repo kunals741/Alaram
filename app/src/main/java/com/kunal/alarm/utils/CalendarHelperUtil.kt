@@ -1,4 +1,4 @@
-package com.kunal.alaram.utils
+package com.kunal.alarm.utils
 
 import java.util.Calendar
 

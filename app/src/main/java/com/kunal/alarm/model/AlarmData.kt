@@ -1,4 +1,4 @@
-package com.kunal.alaram.model
+package com.kunal.alarm.model
 
 data class AlarmData(
     val id: Int,

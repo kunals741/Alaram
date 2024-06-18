@@ -1,4 +1,4 @@
-package com.kunal.alaram.services
+package com.kunal.alarm.services
 
 import android.app.Service
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.kunal.alaram.broadcastReceivers
+package com.kunal.alarm.broadcastReceivers
 
 import android.R
 import android.app.Notification
