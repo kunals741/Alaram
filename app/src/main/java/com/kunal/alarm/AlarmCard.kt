@@ -34,6 +34,7 @@ import com.kunal.alarm.model.AlarmData
 import com.kunal.alarm.ui.theme.PoppinsFontFamily
 import com.kunal.alarm.ui.theme.darkTextColor
 import com.kunal.alarm.ui.theme.startGradientToggleOnColor
+import com.kunal.alarm.utils.AlarmUtil
 import com.kunal.alarm.utils.CalendarHelperUtil
 import java.util.Calendar
 
@@ -54,7 +55,17 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
                 calendar.set(Calendar.SECOND, 0)
                 calendar.set(Calendar.MILLISECOND, 0)
                 if (alarmManager != null) {
-                    setAlarm(context, alarmManager, calendar.timeInMillis, alarmDetails.id)
+                    AlarmUtil.setAlarm(
+                        context,
+                        alarmManager,
+                        calendar.timeInMillis,
+                        alarmDetails.id
+                    )
+                    Toast.makeText(
+                        context,
+                        "Alarm Set at ${CalendarHelperUtil.convertTimeFromMillis(alarmDetails.time)}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 onClick(alarmDetails.copy(id = alarmDetails.id, time = calendar.timeInMillis))
             }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
@@ -91,21 +102,29 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
             Switch(
                 checked = checked,
                 onCheckedChange = {
-                    val intent = Intent(context, AlarmReceiver::class.java).apply {
-                        putExtra("alarm_time", alarmDetails.time)
-                    }
+                    val intent = Intent(context, AlarmReceiver::class.java)
                     val pendingIntent = PendingIntent.getBroadcast(
                         context, alarmDetails.id, intent,
-                        PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_MUTABLE
                     )
                     if (it) {
                         if (alarmManager != null) {
-                            setAlarm(context, alarmManager, alarmDetails.time, alarmDetails.id)
+                            AlarmUtil.setAlarm(
+                                context,
+                                alarmManager,
+                                alarmDetails.time,
+                                alarmDetails.id
+                            )
                         }
-                        Toast.makeText(context, "Alarm Set", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Alarm Set at ${CalendarHelperUtil.convertTimeFromMillis(alarmDetails.time)}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        alarmManager?.cancel(pendingIntent)
-                        Toast.makeText(context, "Alarm Cancelled", Toast.LENGTH_SHORT).show()
+                        alarmManager?.let {
+                            AlarmUtil.cancelAlarm(context, alarmManager, alarmDetails)
+                        }
                     }
                     checked = it
                 },
@@ -119,6 +138,7 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

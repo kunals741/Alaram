@@ -23,13 +23,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private var composeView: ComposeView? = null
     private var windowManager: WindowManager? = null
-    private var alarmTime: Long? = null
-
 
     override fun onReceive(context: Context?, intent: Intent?) {
-
         Log.d("TAG", "Alarm Triggerd")
-        alarmTime = intent?.getLongExtra("alarm_time", -1)
         vibrateDevice()
         showSystemAlertWindow(context)
     }
