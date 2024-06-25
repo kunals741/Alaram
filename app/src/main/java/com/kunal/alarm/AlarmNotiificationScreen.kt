@@ -1,7 +1,6 @@
 package com.kunal.alarm
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,30 +25,42 @@ fun AlarmNotification(modifier: Modifier, alarmTime: String, onDismiss: () -> Un
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White),
+            .paint(
+                painterResource(id = R.drawable.drawable_notification_bg),
+                contentScale = ContentScale.FillBounds
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+//        Text(
+//            "Alarm Notification",
+//            fontFamily = PoppinsFontFamily,
+//            fontSize = 36.sp,
+//            color = Color.White,
+//            modifier = Modifier.padding(top = 48.dp)
+//        )
         Text(
-            "Alarm Notification",
+            text = alarmTime,
             fontFamily = PoppinsFontFamily,
-            fontSize = 36.sp,
+            fontSize = 48.sp,
+            color = Color.White,
             modifier = Modifier.padding(top = 48.dp)
         )
 
         Text(
-            text = alarmTime,
+            text = "Alarm",
             fontFamily = PoppinsFontFamily,
-            fontSize = 36.sp,
-            modifier = Modifier.padding(top = 48.dp)
+            fontSize = 20.sp,
+            color = Color.White,
+            modifier = Modifier.padding(top = 8.dp)
         )
 
         Spacer(Modifier.weight(1f))
 
         Image(
-            painterResource(R.drawable.close), contentDescription = "Close",
+            painterResource(R.drawable.ic_close), contentDescription = "Close",
             modifier = Modifier
-                .size(100.dp)
-                .padding(bottom = 48.dp)
+                .size(120.dp)
+                .padding(bottom = 50.dp)
                 .clickable {
                     onDismiss()
                 }
