@@ -31,13 +31,6 @@ fun AlarmNotification(modifier: Modifier, alarmTime: String, onDismiss: () -> Un
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-//        Text(
-//            "Alarm Notification",
-//            fontFamily = PoppinsFontFamily,
-//            fontSize = 36.sp,
-//            color = Color.White,
-//            modifier = Modifier.padding(top = 48.dp)
-//        )
         Text(
             text = alarmTime,
             fontFamily = PoppinsFontFamily,
