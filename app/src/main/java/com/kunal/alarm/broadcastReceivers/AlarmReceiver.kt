@@ -18,7 +18,6 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.kunal.alarm.AlarmNotification
-import com.kunal.alarm.utils.CalendarHelperUtil.Companion.convertTimeFromMillis
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -51,7 +50,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         composeView = ComposeView(context).apply {
             setContent {
-                AlarmNotification(Modifier, convertTimeFromMillis(alarmTime!!)) {
+                AlarmNotification(Modifier) {
                     windowManager?.removeView(composeView)
                     composeView = null
                     windowManager = null

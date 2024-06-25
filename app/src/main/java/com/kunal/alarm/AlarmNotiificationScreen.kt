@@ -19,9 +19,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kunal.alarm.ui.theme.PoppinsFontFamily
+import com.kunal.alarm.utils.CalendarHelperUtil
+import java.util.Calendar
 
 @Composable
-fun AlarmNotification(modifier: Modifier, alarmTime: String, onDismiss: () -> Unit) {
+fun AlarmNotification(modifier: Modifier, onDismiss: () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -32,7 +34,7 @@ fun AlarmNotification(modifier: Modifier, alarmTime: String, onDismiss: () -> Un
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = alarmTime,
+            text =CalendarHelperUtil.convertTimeFromMillis(Calendar.getInstance().timeInMillis),
             fontFamily = PoppinsFontFamily,
             fontSize = 48.sp,
             color = Color.White,
@@ -64,7 +66,6 @@ fun AlarmNotification(modifier: Modifier, alarmTime: String, onDismiss: () -> Un
 @Composable
 @Preview
 fun AlarmNotificationPreview() {
-    AlarmNotification(Modifier, "15:26") {
-
+    AlarmNotification(Modifier) {
     }
 }
