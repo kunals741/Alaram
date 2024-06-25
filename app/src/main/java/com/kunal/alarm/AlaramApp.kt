@@ -27,7 +27,7 @@ import kotlinx.coroutines.delay
 import java.util.Calendar
 
 @Composable
-fun Alaram(modifier: Modifier) {
+fun Alarm(modifier: Modifier) {
 
     var timeString by remember { mutableStateOf(CalendarHelperUtil.convertTimeFromMillis(Calendar.getInstance().timeInMillis)) }
     val openAlertDialog = remember { mutableStateOf(true) }

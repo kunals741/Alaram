@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getSystemService
+import com.kunal.alarm.R
 import com.kunal.alarm.MainActivity.Companion.REQUEST_ALARM_PERMISSION
 import com.kunal.alarm.broadcastReceivers.AlarmReceiver
 import com.kunal.alarm.model.AlarmData
@@ -53,10 +55,10 @@ fun AlarmList(modifier: Modifier) {
                 newCalendar.set(Calendar.MINUTE, minute)
                 newCalendar.set(Calendar.SECOND, 0)
                 newCalendar.set(Calendar.MILLISECOND, 0)
-                if (alarmManager != null) {
-                    setAlarm(context, alarmManager, newCalendar.timeInMillis)
-                }
                 alarmList.add((AlarmData(alarmList.size, newCalendar.timeInMillis)))
+                if (alarmManager != null) {
+                    setAlarm(context, alarmManager, newCalendar.timeInMillis, alarmList.size)
+                }
             }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
         )
 
@@ -124,12 +126,17 @@ fun AlarmList(modifier: Modifier) {
 
 }
 
-fun setAlarm(context: Context, alarmManager: AlarmManager, selectedTimeInMillis: Long) {
+fun setAlarm(
+    context: Context,
+    alarmManager: AlarmManager,
+    selectedTimeInMillis: Long,
+    requestCode: Int
+) {
     val intent = Intent(context, AlarmReceiver::class.java).apply {
         putExtra("alarm_time", selectedTimeInMillis)
     }
     val pendingIntent = PendingIntent.getBroadcast(
-        context, 0, intent,
+        context, requestCode, intent,
         PendingIntent.FLAG_IMMUTABLE
     )
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && alarmManager.canScheduleExactAlarms()) {

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kunal.alaram"
+    namespace = "com.kunal.alarm"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.kunal.alaram"
+        applicationId = "com.kunal.alarm"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

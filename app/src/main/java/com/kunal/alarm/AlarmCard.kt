@@ -1,7 +1,10 @@
 package com.kunal.alarm
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getSystemService
+import com.kunal.alarm.broadcastReceivers.AlarmReceiver
 import com.kunal.alarm.model.AlarmData
 import com.kunal.alarm.ui.theme.PoppinsFontFamily
 import com.kunal.alarm.ui.theme.darkTextColor
@@ -50,7 +54,7 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
                 calendar.set(Calendar.SECOND, 0)
                 calendar.set(Calendar.MILLISECOND, 0)
                 if (alarmManager != null) {
-                    setAlarm(context, alarmManager, calendar.timeInMillis)
+                    setAlarm(context, alarmManager, calendar.timeInMillis, alarmDetails.id)
                 }
                 onClick(alarmDetails.copy(id = alarmDetails.id, time = calendar.timeInMillis))
             }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
@@ -87,6 +91,22 @@ fun AlarmCard(modifier: Modifier, alarmDetails: AlarmData, onClick: (AlarmData) 
             Switch(
                 checked = checked,
                 onCheckedChange = {
+                    val intent = Intent(context, AlarmReceiver::class.java).apply {
+                        putExtra("alarm_time", alarmDetails.time)
+                    }
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        context, alarmDetails.id, intent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+                    if (it) {
+                        if (alarmManager != null) {
+                            setAlarm(context, alarmManager, alarmDetails.time, alarmDetails.id)
+                        }
+                        Toast.makeText(context, "Alarm Set", Toast.LENGTH_SHORT).show()
+                    } else {
+                        alarmManager?.cancel(pendingIntent)
+                        Toast.makeText(context, "Alarm Cancelled", Toast.LENGTH_SHORT).show()
+                    }
                     checked = it
                 },
                 colors = SwitchDefaults.colors(

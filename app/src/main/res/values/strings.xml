@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Alaram</string>
+    <string name="app_name">alarm</string>
     <string name="alarms">Alarms</string>
 </resources>

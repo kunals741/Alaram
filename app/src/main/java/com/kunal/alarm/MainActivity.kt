@@ -18,7 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.kunal.alarm.ui.theme.AlaramTheme
+import com.kunal.alarm.ui.theme.AlarmTheme
 
 class MainActivity : ComponentActivity() {
     companion object {
@@ -32,9 +32,9 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            AlaramTheme {
+            AlarmTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Alaram(
+                    Alarm(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
